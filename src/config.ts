@@ -24,6 +24,9 @@ export interface Config {
   variables: Variables;
 
   template(input: { variables: Variables; functions: Functions }): string;
+
+  // TODO: more intelligent way to find header
+  headerIndicator: string;
 }
 
 export interface Format {
@@ -36,35 +39,36 @@ export interface Format {
   trailingBlankLine: number;
 }
 
-const config: ConfigRoot = {
-  default: {
-    format: {
-      commentBegin: "/* ",
-      commentEnd: " */",
-      commentPrefix: " * ",
-      trailingBlankLine: 0,
-    },
-    variables: new Variables(),
-    template: ({ variables: v, functions: f }) =>
-      `
+export default function buildConfig(): ConfigRoot {
+  return {
+    default: {
+      headerIndicator: "@auto-file-header",
+      format: {
+        commentBegin: "/* ",
+        commentEnd: " */",
+        commentPrefix: " * ",
+        trailingBlankLine: 0,
+      },
+      variables: new Variables(),
+      template: ({ variables: v, functions: f }) =>
+        `
 Copyright (c) ${f.rangedYear(v.projectStartYear, f.year())} ${v.author}.
 Licensed under the ${v.licenseName}. See LICENSE file in the project root for full license information.
 `,
-  },
-  customFilter: (_, b) => b,
-  exclude: [],
-  include: [],
-  excludeGlob: [],
-  includeGlob: [],
-  languages: {
-    py: {
-      format: {
-        commentBegin: "##",
-        commentEnd: "# ",
-        commentPrefix: "# ",
+    },
+    customFilter: (_, b) => b,
+    exclude: [],
+    include: [],
+    excludeGlob: [],
+    includeGlob: [],
+    languages: {
+      py: {
+        format: {
+          commentBegin: "##",
+          commentEnd: "# ",
+          commentPrefix: "# ",
+        },
       },
     },
-  },
-};
-
-export default config;
+  };
+}
