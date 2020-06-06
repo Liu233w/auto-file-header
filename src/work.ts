@@ -1,3 +1,8 @@
+/* @auto-file-header
+ * Copyright (c) 2020 Shumin Liu and Contributors.
+ * Licensed under MIT. See LICENSE file in the project root for full license information.
+ */
+
 import buildConfig, { ConfigRoot } from "./config.ts";
 import { parseArgs, log } from "../deps.ts";
 import { Engine, EngineOptions } from "./engine.ts";

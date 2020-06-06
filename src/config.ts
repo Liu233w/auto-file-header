@@ -1,3 +1,8 @@
+/* @auto-file-header
+ * Copyright (c) 2020 Shumin Liu and Contributors.
+ * Licensed under MIT. See LICENSE file in the project root for full license information.
+ */
+
 import Functions from "./functions.ts";
 import Variables from "./variables.ts";
 import { RecursivePartial } from "./utils.ts";
