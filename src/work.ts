@@ -1,5 +1,5 @@
 import buildConfig, { ConfigRoot } from "./config.ts";
-import { parseArgs } from "../deps.ts";
+import { parseArgs, log } from "../deps.ts";
 import { Engine } from "./engine.ts";
 
 export default async function work(
@@ -16,6 +16,19 @@ export default async function work(
   `);
 
   const args = parseArgs(Deno.args);
+
+  await log.setup({
+    handlers: {
+      console: new log.handlers.ConsoleHandler("DEBUG"),
+    },
+    loggers: {
+      default: {
+        level: args["verbose"] ? "DEBUG" : "WARNING",
+        handlers: ["console"],
+      },
+    },
+  });
+
   const workDir = Deno.cwd();
   const config = buildConfig();
 

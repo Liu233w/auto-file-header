@@ -14,6 +14,8 @@ import {
 import Variables from "./variables.ts";
 import Functions from "./functions.ts";
 
+import { log } from "../deps.ts";
+
 export class Engine {
   private includeGlobRegex: RegExp[];
   private excludeGlobRegex: RegExp[];
@@ -39,6 +41,13 @@ export class Engine {
       this.basicFilterFunction = (path) =>
         !this.config.exclude.includes(getExt(path));
     }
+
+    log.debug("Engine init:");
+    log.debug("  basePath: ${basePath}");
+    log.debug("  config:", config);
+    log.debug("  includeGlobRegex:", this.includeGlobRegex);
+    log.debug("  excludeGlobRegex:", this.excludeGlobRegex);
+    log.debug("  basicFilterFunction:", this.basicFilterFunction);
   }
 
   public validateConfig(): string[] {
@@ -71,8 +80,13 @@ export class Engine {
 
       // ./a/b/c => a/b/c
       const relativePath = relative(this.basePath, entry.path).substr(2);
+      const selected = this.isFileSelected(relativePath);
 
-      if (this.isFileSelected(relativePath)) {
+      log.debug(
+        `walk files. path: ${entry.path}, relativePath: ${relativePath}, selected: ${selected}`,
+      );
+
+      if (selected) {
         yield relativePath;
       }
     }
