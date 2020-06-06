@@ -9,6 +9,12 @@ import buildConfig, { ConfigRoot } from "./config.ts";
 import { parseArgs, log } from "../deps.ts";
 import { Engine, EngineOptions } from "./engine.ts";
 
+/**
+ * Auto file header. see <a href="https://github.com/liu233w/auto-file-header">project website</a>
+ * for complete documents.
+ *
+ * @param func a function to modify config
+ */
 export default async function work(
   func: (config: ConfigRoot) => void,
 ): Promise<void> {

@@ -7,4 +7,4 @@
 
 export { default as work } from "./src/work.ts";
 
-export { within } from "./src/utils.ts";
+export { within, getExt } from "./src/utils.ts";

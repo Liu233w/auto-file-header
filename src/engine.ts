@@ -31,10 +31,16 @@ export interface EngineOptions {
 }
 
 export class Engine {
+  // cached variables
   private includeGlobRegex: RegExp[];
   private excludeGlobRegex: RegExp[];
   private basicFilterFunction: (path: string) => boolean;
+
+  /**
+   * pre-defined functions
+   */
   private functions: Functions = new Functions();
+
   private readonly options: EngineOptions;
 
   constructor(
@@ -73,6 +79,9 @@ export class Engine {
     log.debug("  basicFilterFunction:", this.basicFilterFunction);
   }
 
+  /**
+   * To check whether config is valid.
+   */
   public validateConfig(): string[] {
     const result = [];
 
@@ -85,6 +94,11 @@ export class Engine {
     return result;
   }
 
+  /**
+   * To check if the file is selected.
+   *
+   * @param relativePath file path relative to working directory
+   */
   public isFileSelected(relativePath: string): boolean {
     const select = this.basicFilterFunction(relativePath) &&
       (this.includeGlobRegex.length === 0 ||
@@ -95,6 +109,9 @@ export class Engine {
     return this.config.customFilter(relativePath, select);
   }
 
+  /**
+   * Get all selected file paths (relative to working directory)
+   */
   public async *globFiles(): AsyncIterableIterator<string> {
     for await (const entry of walk(this.basePath)) {
       if (!entry.isFile) {
@@ -114,6 +131,12 @@ export class Engine {
     }
   }
 
+  /**
+   * Get the config of a certain file type, if not found, default config is used.
+   *
+   * @param path the path of a parameter, such as `format.commentPrefix`
+   * @param type The extension of the file, including dot `.`, such as `.txt`
+   */
   public getConfig(path: string, type: string): unknown {
     const langResult = lodashGet(this.config.languages[type], path, undefined);
     if (langResult) {
@@ -123,6 +146,13 @@ export class Engine {
     }
   }
 
+  /**
+   * Try to find the position and length of the header. If nothing is found,
+   * return null
+   *
+   * @param content file content
+   * @param type file type, such as `.txt`
+   */
   public findFileHeader(
     content: string,
     type: string,
@@ -137,6 +167,7 @@ export class Engine {
       return null;
     }
 
+    // TODO: let it find the header even there are no blank line after it
     const endPattern = this.getConfig("format.commentEnd", type) as string +
       new Array(
         1 + (this.getConfig("format.trailingBlankLine", type) as number),
@@ -158,6 +189,12 @@ export class Engine {
     };
   }
 
+  /**
+   * Generate file header, each line is an item in array.
+   *
+   * @param path relative path of the file
+   * @param type file extension, such as `.txt`
+   */
   public generateFileHeader(path: string, type: string): string[] {
     const template = this.getConfig("template", type) as TemplateFunction;
     const tempStr = template(
@@ -186,6 +223,9 @@ export class Engine {
     ];
   }
 
+  /**
+   * Start working on files
+   */
   public async work(): Promise<void> {
     // TODO: optimise
     for await (const path of this.globFiles()) {
