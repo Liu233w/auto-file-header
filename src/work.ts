@@ -62,12 +62,19 @@ export default async function work(
 
   if (args["dry-run"] || args["d"]) {
     options.dryRun = true;
+    if (args["show-file-content"]) {
+      options.showFileContent = true;
+    }
   }
 
   const engine = new Engine(workDir, config, options);
 
   if (options.dryRun) {
-    engine.globFiles();
+    console.log("Selected files:");
+
+    for await (const file of engine.globFiles()) {
+      console.log(file);
+    }
   }
 
   engine.work();

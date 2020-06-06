@@ -28,6 +28,10 @@ import { log } from "../deps.ts";
 export interface EngineOptions {
   dryRun: boolean;
   defaultEOL: EOL;
+  /**
+   * Show file content when dry running
+   */
+  showFileContent: boolean;
 }
 
 export class Engine {
@@ -67,6 +71,7 @@ export class Engine {
     this.options = {
       defaultEOL: Deno.build.os === "windows" ? EOL.CRLF : EOL.LF,
       dryRun: false,
+      showFileContent: false,
       ...options,
     };
 
@@ -79,6 +84,7 @@ export class Engine {
     log.debug("  basicFilterFunction:", this.basicFilterFunction);
   }
 
+  // TODO: use it somewhere
   /**
    * To check whether config is valid.
    */
@@ -267,10 +273,12 @@ export class Engine {
 
   private writeFile(path: string, content: string): Promise<void> {
     if (this.options.dryRun) {
-      console.log("----------------------------------");
-      console.log("File written to " + path);
-      console.log("----------------------------------");
-      console.log(content);
+      if (this.options.showFileContent) {
+        console.log("----------------------------------");
+        console.log("File written to " + path);
+        console.log("----------------------------------");
+        console.log(content);
+      }
       return Promise.resolve();
     } else {
       return writeFileStr(path, content);
