@@ -1,6 +1,6 @@
 import buildConfig, { ConfigRoot } from "./config.ts";
 import { parseArgs, log } from "../deps.ts";
-import { Engine } from "./engine.ts";
+import { Engine, EngineOptions } from "./engine.ts";
 
 export default async function work(
   func: (config: ConfigRoot) => void,
@@ -45,13 +45,17 @@ export default async function work(
 
   func(config);
 
-  const engine = new Engine(workDir, config);
+  const options: Partial<EngineOptions> = {};
 
   if (args["dry-run"] || args["d"]) {
-    console.log("globed files:");
-
-    for await (const path of engine.globFiles()) {
-      console.log(path);
-    }
+    options.dryRun = true;
   }
+
+  const engine = new Engine(workDir, config, options);
+
+  if (options.dryRun) {
+    engine.globFiles();
+  }
+
+  engine.work();
 }

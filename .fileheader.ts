@@ -10,6 +10,8 @@ work((cfg) => {
     "./mod.ts",
   ];
 
+  cfg.default.format.trailingBlankLine = 1;
+
   within(cfg.default.variables, (it) => {
     it.author = "Shumin Liu and Contributors";
     it.projectStartYear = 2020;

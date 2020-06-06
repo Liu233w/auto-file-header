@@ -8,6 +8,7 @@ export {
   detect as detectEOL,
   readFileStr,
   writeFileStr,
+  EOL,
 } from "https://deno.land/std/fs/mod.ts";
 
 export {

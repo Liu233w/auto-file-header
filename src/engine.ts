@@ -11,21 +11,29 @@ import {
   joinPath,
   writeFileStr,
   normalizeGlob,
+  EOL,
 } from "../deps.ts";
 import Variables from "./variables.ts";
 import Functions from "./functions.ts";
 
 import { log } from "../deps.ts";
 
+export interface EngineOptions {
+  dryRun: boolean;
+  defaultEOL: EOL;
+}
+
 export class Engine {
   private includeGlobRegex: RegExp[];
   private excludeGlobRegex: RegExp[];
   private basicFilterFunction: (path: string) => boolean;
   private functions: Functions = new Functions();
+  private readonly options: EngineOptions;
 
   constructor(
     private readonly basePath: string,
     private readonly config: ConfigRoot,
+    options: Partial<EngineOptions> = {},
   ) {
     this.includeGlobRegex = this.config.includeGlob.map((glob) =>
       globToRegExp(normalizeGlob(glob))
@@ -43,9 +51,16 @@ export class Engine {
         !this.config.exclude.includes(getExt(path));
     }
 
+    this.options = {
+      defaultEOL: Deno.build.os === "windows" ? EOL.CRLF : EOL.LF,
+      dryRun: false,
+      ...options,
+    };
+
     log.debug("Engine init:");
     log.debug("  basePath:", basePath);
     log.debug("  config:", config);
+    log.debug("  options:", options);
     log.debug("  includeGlobRegex:", this.includeGlobRegex);
     log.debug("  excludeGlobRegex:", this.excludeGlobRegex);
     log.debug("  basicFilterFunction:", this.basicFilterFunction);
@@ -134,15 +149,34 @@ export class Engine {
     };
   }
 
-  public generateFileHeader(path: string, type: string): string {
+  public generateFileHeader(path: string, type: string): string[] {
     const template = this.getConfig("template", type) as TemplateFunction;
-    return template(
+    const tempStr = template(
       {
         variables: this.getConfig("variables", type) as Variables,
         functions: this.functions,
         filePath: path,
       },
     );
+    const eol = detectEOL(tempStr);
+    const lines = eol === null ? [tempStr] : tempStr.split(eol);
+    const commentPrefix = this.getConfig(
+      "format.commentPrefix",
+      type,
+    ) as string;
+
+    return [
+      // first line
+      this.getConfig("format.commentBegin", type) as string +
+      this.getConfig("headerIndicator", type) as string,
+      // content
+      ...lines.map((item) => commentPrefix + item),
+      // last line
+      this.getConfig("format.commentEnd", type) as string,
+      // trailing blank lines
+      ...new Array(this.getConfig("format.trailingBlankLine", type) as number)
+        .fill(""),
+    ];
   }
 
   public async work(): Promise<void> {
@@ -152,25 +186,47 @@ export class Engine {
       // TODO: handle encoding
       const content = await readFileStr(absolutePath);
       const type = getExt(path);
+      const eol = detectEOL(content) ?? this.options.defaultEOL;
+
+      log.debug(`working on ${absolutePath}, type: ${type}, eol: ${eol}`);
+
+      const newFileHeader = this.generateFileHeader(path, type).join(eol) + eol;
 
       const headerPosition = this.findFileHeader(content, type);
+
       if (headerPosition === null) {
+        await this.writeFile(absolutePath, newFileHeader + content);
+        log.debug("new header inserted");
         continue;
       }
 
       const { begin, length } = headerPosition;
 
       const oldFileHeader = content.substr(begin, length);
-      const newFileHeader = this.generateFileHeader(path, type);
 
       if (oldFileHeader === newFileHeader) {
+        log.debug("no need to change header");
         continue;
       }
 
       const newContent = content.substring(0, begin) +
         newFileHeader + content.substring(begin + length);
 
-      writeFileStr(absolutePath, newContent);
+      await this.writeFile(absolutePath, newContent);
+
+      log.debug("header replaced");
+    }
+  }
+
+  private writeFile(path: string, content: string): Promise<void> {
+    if (this.options.dryRun) {
+      console.log("----------------------------------");
+      console.log("File written to " + path);
+      console.log("----------------------------------");
+      console.log(content);
+      return Promise.resolve();
+    } else {
+      return writeFileStr(path, content);
     }
   }
 }

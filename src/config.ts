@@ -55,10 +55,10 @@ export default function buildConfig(): ConfigRoot {
       },
       variables: new Variables(),
       template: ({ variables: v, functions: f }) =>
-        `
-Copyright (c) ${f.rangedYear(v.projectStartYear, f.year())} ${v.author}.
-Licensed under the ${v.licenseName}. See LICENSE file in the project root for full license information.
-`,
+        `Copyright (c) ${
+          f.rangedYear(v.projectStartYear, f.year())
+        } ${v.author}.
+Licensed under ${v.licenseName}. See LICENSE file in the project root for full license information.`,
     },
     customFilter: (_, b) => b,
     exclude: [],
