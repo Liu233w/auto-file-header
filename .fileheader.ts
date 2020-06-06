@@ -1,5 +1,4 @@
-import { work } from "./mod.ts";
-import { within } from "./src/utils.ts";
+import { work, within } from "./mod.ts";
 
 work((cfg) => {
   cfg.include = [

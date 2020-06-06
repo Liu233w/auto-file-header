@@ -1,0 +1,151 @@
+// Running on Surface Book 2 Core i7 16GB RAM, Windows 10 pro
+
+C:\source\project\auto-file-header\benchmark [master ≡ +2 ~1 -0 !]> make
+git clone https://github.com/git/git.git git
+Cloning into 'git'...
+remote: Enumerating objects: 77, done.
+remote: Counting objects: 100% (77/77), done.
+remote: Compressing objects: 100% (39/39), done.
+remote: Total 288310 (delta 43), reused 61 (delta 38), pack-reused 288233
+Receiving objects: 100% (288310/288310), 138.00 MiB | 5.07 MiB/s, done.
+Resolving deltas: 100% (214553/214553), done.
+Updating files: 100% (3772/3772), done.
+cp git.fileheader.ts git/.fileheader.ts
+cd git && \
+\
+echo cache time && \
+time deno cache --unstable .fileheader.ts && \
+\
+echo first run time && \
+time deno run --unstable --allow-read --allow-write .fileheader.ts && \
+\
+echo second run time && \
+time deno run --unstable --allow-read --allow-write .fileheader.ts
+cache time
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/mod.ts
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/work.ts
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/utils.ts
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/config.ts
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/deps.ts
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/engine.ts
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/functions.ts
+Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/variables.ts
+Download https://deno.land/std/testing/asserts.ts
+Download https://deno.land/std/fs/mod.ts
+Download https://deno.land/std/path/mod.ts
+Download https://deno.land/std/flags/mod.ts
+Download https://deno.land/std/log/mod.ts
+Download https://deno.land/x/lodash/get.js
+Warning Implicitly using master branch https://deno.land/std/testing/asserts.ts
+Warning Implicitly using master branch https://deno.land/std/path/mod.ts
+Download https://deno.land/std/fmt/colors.ts
+Download https://deno.land/std/testing/diff.ts
+Download https://deno.land/std/path/_constants.ts
+Download https://deno.land/std/path/win32.ts
+Download https://deno.land/std/path/posix.ts
+Download https://deno.land/std/path/common.ts
+Download https://deno.land/std/path/separator.ts
+Download https://deno.land/std/path/_interface.ts
+Download https://deno.land/std/path/glob.ts
+Warning Implicitly using master branch https://deno.land/std/path/_interface.ts
+Warning Implicitly using master branch https://deno.land/std/path/separator.ts
+Warning Implicitly using master branch https://deno.land/std/path/_constants.ts
+Warning Implicitly using master branch https://deno.land/std/testing/diff.ts
+Warning Implicitly using master branch https://deno.land/std/fmt/colors.ts
+Warning Implicitly using master branch https://deno.land/std/path/posix.ts
+Warning Implicitly using master branch https://deno.land/std/path/glob.ts
+Warning Implicitly using master branch https://deno.land/std/path/common.ts
+Warning Implicitly using master branch https://deno.land/std/path/win32.ts
+Download https://deno.land/std/path/_util.ts
+Download https://deno.land/std/path/_globrex.ts
+Warning Implicitly using master branch https://deno.land/std/log/mod.ts
+Warning Implicitly using master branch https://deno.land/std/flags/mod.ts
+Warning Implicitly using master branch https://deno.land/std/fs/mod.ts
+Download https://deno.land/std/log/logger.ts
+Download https://deno.land/std/log/handlers.ts
+Download https://deno.land/std/log/levels.ts
+Download https://deno.land/x/lodash/.internal/baseGet.js
+Download https://deno.land/std/fs/empty_dir.ts
+Download https://deno.land/std/fs/ensure_dir.ts
+Download https://deno.land/std/fs/ensure_file.ts
+Download https://deno.land/std/fs/ensure_link.ts
+Download https://deno.land/std/fs/ensure_symlink.ts
+Download https://deno.land/std/fs/exists.ts
+Download https://deno.land/std/fs/expand_glob.ts
+Download https://deno.land/std/fs/move.ts
+Download https://deno.land/std/fs/copy.ts
+Download https://deno.land/std/fs/read_file_str.ts
+Download https://deno.land/std/fs/write_file_str.ts
+Download https://deno.land/std/fs/read_json.ts
+Download https://deno.land/std/fs/write_json.ts
+Download https://deno.land/std/fs/walk.ts
+Download https://deno.land/std/fs/eol.ts
+Warning Implicitly using master branch https://deno.land/std/path/_util.ts
+Warning Implicitly using master branch https://deno.land/std/path/_globrex.ts
+Warning Implicitly using master branch https://deno.land/std/fs/ensure_file.ts
+Download https://deno.land/std/fs/_util.ts
+Warning Implicitly using master branch https://deno.land/std/log/logger.ts
+Warning Implicitly using master branch https://deno.land/std/log/levels.ts
+Warning Implicitly using master branch https://deno.land/std/fs/copy.ts
+Warning Implicitly using master branch https://deno.land/std/fs/read_json.ts
+Warning Implicitly using master branch https://deno.land/std/fs/write_json.ts
+Warning Implicitly using master branch https://deno.land/std/fs/ensure_link.ts
+Warning Implicitly using master branch https://deno.land/std/fs/move.ts
+Warning Implicitly using master branch https://deno.land/std/fs/walk.ts
+Warning Implicitly using master branch https://deno.land/std/fs/ensure_symlink.ts
+Warning Implicitly using master branch https://deno.land/std/fs/write_file_str.ts
+Warning Implicitly using master branch https://deno.land/std/fs/read_file_str.ts
+Warning Implicitly using master branch https://deno.land/std/fs/ensure_dir.ts
+Warning Implicitly using master branch https://deno.land/std/fs/expand_glob.ts
+Warning Implicitly using master branch https://deno.land/std/fs/exists.ts
+Warning Implicitly using master branch https://deno.land/std/fs/empty_dir.ts
+Warning Implicitly using master branch https://deno.land/std/log/handlers.ts
+Warning Implicitly using master branch https://deno.land/std/fs/eol.ts
+Warning Implicitly using master branch https://deno.land/std/fs/_util.ts
+Download https://deno.land/std/io/bufio.ts
+Download https://deno.land/x/lodash/.internal/castPath.js
+Download https://deno.land/x/lodash/.internal/toKey.js
+Warning Implicitly using master branch https://deno.land/std/io/bufio.ts
+Download https://deno.land/std/io/util.ts
+Warning Implicitly using master branch https://deno.land/std/io/util.ts
+Download https://deno.land/std/encoding/utf8.ts
+Download https://deno.land/x/lodash/.internal/isKey.js
+Download https://deno.land/x/lodash/.internal/stringToPath.js
+Warning Implicitly using master branch https://deno.land/std/encoding/utf8.ts
+Download https://deno.land/x/lodash/.internal/memoizeCapped.js
+Download https://deno.land/x/lodash/isSymbol.js
+Download https://deno.land/x/lodash/memoize.js
+Download https://deno.land/x/lodash/.internal/getTag.js
+Compile file:///C:/source/project/auto-file-header/benchmark/git/.fileheader.ts
+
+real    0m8.657s
+user    0m0.015s
+sys     0m0.016s
+first run time
+
+   #                           #######                    #     #
+  # #   #    # #####  ####     #       # #      ######    #     # ######   ##   #####  ###### #####
+ #   #  #    #   #   #    #    #       # #      #         #     # #       #  #  #    # #      #    #
+#     # #    #   #   #    #    #####   # #      #####     ####### #####  #    # #    # #####  #    #
+####### #    #   #   #    #    #       # #      #         #     # #      ###### #    # #      #####
+#     # #    #   #   #    #    #       # #      #         #     # #      #    # #    # #      #   #
+#     #  ####    #    ####     #       # ###### ######    #     # ###### #    # #####  ###### #    #
+
+
+real    0m9.388s
+user    0m0.015s
+sys     0m0.015s
+second run time
+
+   #                           #######                    #     #
+  # #   #    # #####  ####     #       # #      ######    #     # ######   ##   #####  ###### #####
+ #   #  #    #   #   #    #    #       # #      #         #     # #       #  #  #    # #      #    #
+#     # #    #   #   #    #    #####   # #      #####     ####### #####  #    # #    # #####  #    #
+####### #    #   #   #    #    #       # #      #         #     # #      ###### #    # #      #####
+#     # #    #   #   #    #    #       # #      #         #     # #      #    # #    # #      #   #
+#     #  ####    #    ####     #       # ###### ######    #     # ###### #    # #####  ###### #    #
+
+
+real    0m0.823s
+user    0m0.015s
+sys     0m0.000s
