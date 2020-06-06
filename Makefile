@@ -3,3 +3,6 @@ cache:
 
 test:
 	deno test --unstable
+
+header:
+	deno run --unstable --allow-read --allow-write .fileheader.ts

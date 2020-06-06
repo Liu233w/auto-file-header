@@ -1,4 +1,4 @@
-import { assertEquals } from "../deps.ts";
+import { assertEquals, assertThrows } from "../deps.ts";
 
 import buildConfig from "./config.ts";
 import { Engine } from "./engine.ts";
@@ -57,3 +57,59 @@ test("Engine.isFileSelected", () => {
   // TODO: test file type work with glob
   // TODO: test filter function
 });
+
+test("Engine.getConfig", () => {
+  const config = buildConfig();
+  const engine = new Engine("", config);
+
+  assertEquals(engine.getConfig("format.commentBegin", ".py"), "# ");
+  assertEquals(engine.getConfig("format.commentBegin", "py"), "/* ");
+  assertEquals(engine.getConfig("format.commentBegin", ".not-exist"), "/* ");
+});
+
+test("Engine.extractFileHeader", () => {
+  const config = buildConfig();
+  const engine = new Engine("", config);
+
+  assertEquals(
+    extractFileHeader(
+      engine,
+      "foo\n/* @auto-file-header\n * header\n */\nbar",
+      "js",
+    ),
+    "/* @auto-file-header\n * header\n */\n",
+  );
+  assertEquals(
+    extractFileHeader(
+      engine,
+      "foo\n/* baz\n * header\n */\nbar",
+      "js",
+    ),
+    null,
+  );
+  assertThrows(
+    () =>
+      extractFileHeader(
+        engine,
+        "foo\n/* @auto-file-header\n * header\n*/\nbar",
+        //                                     ^
+        "js",
+      ),
+    Error,
+    "Cannot find header end for type js",
+  );
+});
+
+function extractFileHeader(
+  engine: Engine,
+  content: string,
+  type: string,
+): string | null {
+  const header = engine.findFileHeader(content, type);
+  if (header === null) {
+    return null;
+  }
+
+  const { begin, length } = header;
+  return content.substr(begin, length);
+}

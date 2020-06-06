@@ -16,12 +16,12 @@ export function getExt(path: string) {
   const name = basename(path);
 
   const emptyExt = [
-    '.',
-    '..',
-    ''
-  ]
+    ".",
+    "..",
+    "",
+  ];
   if (emptyExt.includes(name)) {
-    return ''
+    return "";
   }
 
   const dotIndex = name.lastIndexOf(".");
@@ -31,4 +31,8 @@ export function getExt(path: string) {
   } else {
     return name.substr(dotIndex);
   }
+}
+
+export function within<T>(obj: T, func: ((it: T) => any)) {
+  func(obj);
 }

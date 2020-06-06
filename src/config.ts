@@ -23,11 +23,15 @@ export interface Config {
 
   variables: Variables;
 
-  template(input: { variables: Variables; functions: Functions }): string;
+  template: TemplateFunction;
 
   // TODO: more intelligent way to find header
   headerIndicator: string;
 }
+
+export type TemplateFunction = (
+  input: { variables: Variables; functions: Functions; filePath: string },
+) => string;
 
 export interface Format {
   commentBegin: string;
@@ -62,9 +66,9 @@ Licensed under the ${v.licenseName}. See LICENSE file in the project root for fu
     excludeGlob: [],
     includeGlob: [],
     languages: {
-      py: {
+      ".py": {
         format: {
-          commentBegin: "##",
+          commentBegin: "# ",
           commentEnd: "# ",
           commentPrefix: "# ",
         },
