@@ -6,10 +6,12 @@
 export default class Variables implements Record<string, any> {
 
   // TODO: auto detect author by computer info
-  author: string = "Author"
+  author: string = "{author}"
 
   projectStartYear: number = new Date().getFullYear()
 
   // TODO: auto detect license
-  licenseName: string = "MIT"
+  licenseName: string = "{license}"
+
+  copyrightHolder: string = "{company}"
 }

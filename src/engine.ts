@@ -136,7 +136,9 @@ export class Engine {
     }
 
     const endPattern = this.getConfig("format.commentEnd", type) as string +
-      eol;
+      new Array(
+        1 + (this.getConfig("format.trailingBlankLine", type) as number),
+      ).fill(eol).join("");
     const endIndex = content.indexOf(
       endPattern,
       beginIndex + beginPattern.length,
@@ -157,11 +159,9 @@ export class Engine {
   public generateFileHeader(path: string, type: string): string[] {
     const template = this.getConfig("template", type) as TemplateFunction;
     const tempStr = template(
-      {
-        variables: this.getConfig("variables", type) as Variables,
-        functions: this.functions,
-        filePath: path,
-      },
+      this.getConfig("variables", type) as Variables,
+      this.functions,
+      path,
     );
     const eol = detectEOL(tempStr);
     const lines = eol === null ? [tempStr] : tempStr.split(eol);

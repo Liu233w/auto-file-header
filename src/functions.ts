@@ -3,11 +3,16 @@
  * Licensed under MIT. See LICENSE file in the project root for full license information.
  */
 
+import Variables from "./variables.ts";
+
 export default class Functions {
   year(): number {
     return new Date().getFullYear();
   }
-  rangedYear(begin: number, end: number): string {
+  years(v: Variables): string {
+    const begin = v.projectStartYear
+    const end = this.year()
+
     if (begin === end) {
       return String(begin);
     } else {

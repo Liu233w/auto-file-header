@@ -35,7 +35,9 @@ export interface Config {
 }
 
 export type TemplateFunction = (
-  input: { variables: Variables; functions: Functions; filePath: string },
+  variables: Variables,
+  functions: Functions,
+  filePath: string,
 ) => string;
 
 export interface Format {
@@ -59,10 +61,8 @@ export default function buildConfig(): ConfigRoot {
         trailingBlankLine: 0,
       },
       variables: new Variables(),
-      template: ({ variables: v, functions: f }) =>
-        `Copyright (c) ${
-          f.rangedYear(v.projectStartYear, f.year())
-        } ${v.author}.
+      template: (v, f) =>
+        `Copyright (c) ${f.years(v)} ${v.copyrightHolder}.
 Licensed under ${v.licenseName}. See LICENSE file in the project root for full license information.`,
     },
     customFilter: (_, b) => b,
