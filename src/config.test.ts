@@ -11,6 +11,7 @@ test("default.template should generate template correctly", () => {
   const result = config.default.template({
     variables: config.default.variables,
     functions: new Functions(),
+    filePath: '',
   });
 
   assertEquals(

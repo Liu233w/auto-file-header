@@ -10,6 +10,7 @@ import {
   readFileStr,
   joinPath,
   writeFileStr,
+  normalizeGlob,
 } from "../deps.ts";
 import Variables from "./variables.ts";
 import Functions from "./functions.ts";
@@ -27,10 +28,10 @@ export class Engine {
     private readonly config: ConfigRoot,
   ) {
     this.includeGlobRegex = this.config.includeGlob.map((glob) =>
-      globToRegExp(glob)
+      globToRegExp(normalizeGlob(glob))
     );
     this.excludeGlobRegex = this.config.excludeGlob.map((glob) =>
-      globToRegExp(glob)
+      globToRegExp(normalizeGlob(glob))
     );
 
     this.basicFilterFunction = (_) => true;
@@ -43,7 +44,7 @@ export class Engine {
     }
 
     log.debug("Engine init:");
-    log.debug("  basePath: ${basePath}");
+    log.debug("  basePath:", basePath);
     log.debug("  config:", config);
     log.debug("  includeGlobRegex:", this.includeGlobRegex);
     log.debug("  excludeGlobRegex:", this.excludeGlobRegex);
@@ -78,8 +79,7 @@ export class Engine {
         continue;
       }
 
-      // ./a/b/c => a/b/c
-      const relativePath = relative(this.basePath, entry.path).substr(2);
+      const relativePath = relative(this.basePath, entry.path);
       const selected = this.isFileSelected(relativePath);
 
       log.debug(

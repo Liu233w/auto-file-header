@@ -13,7 +13,7 @@ export {
 export {
   relative,
   globToRegExp,
-  joinGlobs,
+  normalizeGlob,
   basename,
   join as joinPath,
 } from "https://deno.land/std/path/mod.ts";

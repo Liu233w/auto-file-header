@@ -19,7 +19,18 @@ export default async function work(
 
   await log.setup({
     handlers: {
-      console: new log.handlers.ConsoleHandler("DEBUG"),
+      console: new log.handlers.ConsoleHandler("DEBUG", {
+        formatter: (logRecord) => {
+          let msg = `${logRecord.levelName} ${logRecord.msg}`;
+
+          logRecord.args.forEach((arg, index) => {
+            // TODO: handle functions
+            msg += ` ${JSON.stringify(arg)}`;
+          });
+
+          return msg;
+        },
+      }),
     },
     loggers: {
       default: {

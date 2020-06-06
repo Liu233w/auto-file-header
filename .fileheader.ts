@@ -3,7 +3,7 @@ import { within } from "./src/utils.ts";
 
 work((cfg) => {
   cfg.include = [
-    "ts",
+    ".ts",
   ];
   cfg.includeGlob = [
     "src/*",

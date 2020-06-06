@@ -56,6 +56,18 @@ test("Engine.isFileSelected", () => {
   // TODO: test excludeGlob
   // TODO: test file type work with glob
   // TODO: test filter function
+
+  // test win32 path
+  config = buildConfig();
+  config.include = [".js", ".ts"];
+  engine = new Engine("", config);
+  assertEquals(engine.isFileSelected("a\\b.t"), false);
+  assertEquals(engine.isFileSelected("a\\b"), false);
+  assertEquals(engine.isFileSelected("a\\b"), false);
+  assertEquals(engine.isFileSelected("a\\js"), false);
+  assertEquals(engine.isFileSelected("js"), false);
+  assertEquals(engine.isFileSelected("a.js"), true);
+  assertEquals(engine.isFileSelected("foo\\a.js"), true);
 });
 
 test("Engine.getConfig", () => {
