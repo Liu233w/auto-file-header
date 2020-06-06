@@ -1,0 +1,21 @@
+name: CI
+
+on:
+- push
+- pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup Deno environment
+      uses: denolib/setup-deno@master
+      with:
+        deno-version: v1.x
+  
+    - name: run test
+      run: make test
+    
