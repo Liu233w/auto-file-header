@@ -21,6 +21,6 @@ export {
 
 export { parse as parseArgs } from "https://deno.land/std/flags/mod.ts";
 
-export * as log from "https://deno.land/std/log/mod.ts"
+export * as log from "https://deno.land/std/log/mod.ts";
 
 export { default as lodashGet } from "https://deno.land/x/lodash/get.js";
