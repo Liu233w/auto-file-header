@@ -9,7 +9,7 @@ export function setupLog(verbose: boolean): Promise<void> {
 
           logRecord.args.forEach((arg, index) => {
             // TODO: handle functions
-            msg += ` ${JSON.stringify(arg)}`;
+            msg += ` ${JSON.stringify(arg, null, 2)}`;
           });
 
           return msg;
