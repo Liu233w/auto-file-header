@@ -7,7 +7,7 @@
 
 import { assertEquals } from "../deps.ts";
 
-import { getExt } from "./utils.ts";
+import { getExt, splitByLines } from "./utils.ts";
 
 const { test } = Deno;
 
@@ -29,4 +29,12 @@ list.forEach(([input, output]) => {
   test(`getExt: input with "${input}"`, () => {
     assertEquals(getExt(input), output);
   });
+});
+
+test("splitByLines", () => {
+  assertEquals(splitByLines(""), [""]);
+  assertEquals(splitByLines("foo"), ["foo"]);
+  assertEquals(splitByLines("\n"), ["", ""]);
+  assertEquals(splitByLines("foo\nbar"), ["foo", "bar"]);
+  assertEquals(splitByLines("foo\r\nbar"), ["foo", "bar"]);
 });

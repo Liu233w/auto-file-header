@@ -5,7 +5,7 @@
  * Licensed under MIT. See LICENSE file in the project root for full license information.
  */
 
-import { basename } from "../deps.ts";
+import { basename, detectEOL } from "../deps.ts";
 
 export type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
@@ -42,4 +42,14 @@ export function getExt(path: string) {
 
 export function within<T>(obj: T, func: ((it: T) => any)) {
   func(obj);
+}
+
+export function splitByLines(str: string): string[] {
+  const eol = detectEOL(str);
+
+  if (eol === null) {
+    return [str];
+  } else {
+    return str.split(eol);
+  }
 }

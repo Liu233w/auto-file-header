@@ -54,6 +54,7 @@ test("Engine.isFileSelected", () => {
 
   assertEquals(engine.isFileSelected("bar.a"), false);
   assertEquals(engine.isFileSelected("baz/bar.a"), true);
+  assertEquals(engine.isFileSelected("baz/baz/bar.a"), false);
 
   assertEquals(engine.isFileSelected("bar.b"), true);
   assertEquals(engine.isFileSelected("foo/bar.b"), true);
