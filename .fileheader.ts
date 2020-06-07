@@ -8,7 +8,7 @@ work((cfg) => {
     ".ts",
   ];
   cfg.includeGlob = [
-    "src/*",
+    "src/**",
     "./mod.ts",
   ];
 
