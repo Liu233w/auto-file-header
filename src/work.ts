@@ -6,8 +6,9 @@
  */
 
 import buildConfig, { ConfigRoot } from "./config.ts";
-import { parseArgs, log } from "../deps.ts";
+import { parseArgs } from "../deps.ts";
 import { Engine, EngineOptions } from "./engine.ts";
+import { setupLog } from "./log.config.ts";
 
 /**
  * Auto file header. see <a href="https://github.com/liu233w/auto-file-header">project website</a>
@@ -30,28 +31,7 @@ export default async function work(
 
   const args = parseArgs(Deno.args);
 
-  await log.setup({
-    handlers: {
-      console: new log.handlers.ConsoleHandler("DEBUG", {
-        formatter: (logRecord) => {
-          let msg = `${logRecord.levelName} ${logRecord.msg}`;
-
-          logRecord.args.forEach((arg, index) => {
-            // TODO: handle functions
-            msg += ` ${JSON.stringify(arg)}`;
-          });
-
-          return msg;
-        },
-      }),
-    },
-    loggers: {
-      default: {
-        level: args["verbose"] ? "DEBUG" : "WARNING",
-        handlers: ["console"],
-      },
-    },
-  });
+  await setupLog(args["verbose"]);
 
   const workDir = Deno.cwd();
   const config = buildConfig();
