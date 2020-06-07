@@ -48,7 +48,7 @@ export class Git implements VersionControl {
     // `foo` in gitignore can either be a file or directory
     return [
       ...result,
-      ...result.map((p) => p + "/**"),
+      ...result.map((p) => p + (p.endsWith("/") ? "**" : "/**")),
     ];
   }
 
