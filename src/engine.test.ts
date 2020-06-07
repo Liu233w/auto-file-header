@@ -87,12 +87,26 @@ test("Engine.isFileSelected", async () => {
 });
 
 test("Engine.getConfig", () => {
-  const config = buildConfig();
-  const engine = new Engine("", config);
+  let config = buildConfig();
+  let engine = new Engine("", config);
 
   assertEquals(engine.getConfig("format.commentBegin", ".py"), "# ");
   assertEquals(engine.getConfig("format.commentBegin", "py"), "/* ");
   assertEquals(engine.getConfig("format.commentBegin", ".not-exist"), "/* ");
+
+  config = buildConfig();
+  config.languages[".cs"] = {
+    format: {
+      commentBegin: "// ",
+      commentEnd: "",
+      commentPrefix: "// ",
+    },
+  };
+  engine = new Engine("", config);
+
+  assertEquals(engine.getConfig("format.commentBegin", ".cs"), "// ");
+  assertEquals(engine.getConfig("format.commentEnd", ".cs"), "");
+  assertEquals(engine.getConfig("format.commentPrefix", ".cs"), "// ");
 });
 
 test("Engine.extractFileHeader", () => {

@@ -186,7 +186,7 @@ export class Engine {
    */
   public getConfig(path: string, type: string): unknown {
     const langResult = lodashGet(this.config.languages[type], path, undefined);
-    if (langResult) {
+    if (langResult !== undefined) {
       return langResult;
     } else {
       return lodashGet(this.config.default, path, undefined);
