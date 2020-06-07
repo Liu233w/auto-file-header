@@ -5,7 +5,7 @@ work((cfg) => {
   cfg.versionControl = vc.git()
 
   cfg.include = [
-    ".ts",
+    "*.ts",
   ];
   cfg.includeGlob = [
     "src/**",

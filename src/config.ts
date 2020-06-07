@@ -29,40 +29,30 @@ export interface ConfigRoot {
   /**
    * The files to add file headers.
    *
-   * Each value is a file extension such as `.js`, `.cpp` or `Makefile`.
-   * The dot `.` is required to represent a file extension,
-   * or it will match the whole file name.
-   *
-   * It cannot be used with `exclude` property.
+   * It is like globs, but only file part is allowed. For example, `foo.bar` and `*.bar`
+   * are allowed, while `baz/foo.bar` or `/foo.bar` are not allowed.
    */
   include: string[];
 
   /**
-   * If it is not empty, file headers are added to all files except the file configured
-   * in the property.
+   * The files to exclude.
    *
-   * Each value is a file extension such as `.js`, `.cpp` or `Makefile`.
-   * The dot `.` is required to represent a file extension,
-   * or it will match the whole file name.
-   *
-   * It cannot be used with `include` property.
+   * It is like globs, but only file part is allowed. For example, `foo.bar` and `*.bar`
+   * are allowed, while `baz/foo.bar` or `/foo.bar` are not allowed.
    */
   exclude: string[];
 
   /**
    * Additional glob to include files.
    *
-   * If it is not empty, files are filtered by the property after being filtered by
-   * `include` or `exclude` to ensure that all files match one (or more) of items in
-   * the `includeGlob`.
+   * It can contain file paths.
    */
   includeGlob: string[];
 
   /**
    * Additional glob to exclude files.
    *
-   * If it is not empty, files are filtered by the property after being filtered by
-   * `include` or `exclude` to ensure that none files match any items in the `excludeGlob`.
+   * It can contain file paths.
    */
   excludeGlob: string[];
 

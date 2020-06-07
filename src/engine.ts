@@ -36,9 +36,8 @@ export interface EngineOptions {
 
 export class Engine {
   // cached variables
-  private includeGlobRegex: RegExp[];
-  private excludeGlobRegex: RegExp[];
-  private basicFilterFunction: (path: string) => boolean;
+  private includeRegex: RegExp | null = null;
+  private excludeRegex: RegExp | null = null;
 
   private initialized: boolean = false;
 
@@ -54,36 +53,12 @@ export class Engine {
     private readonly config: ConfigRoot,
     options: Partial<EngineOptions> = {},
   ) {
-    this.includeGlobRegex = this.config.includeGlob.map((glob) =>
-      globToRegExp(normalizeGlob(glob))
-    );
-    this.excludeGlobRegex = this.config.excludeGlob.map((glob) =>
-      globToRegExp(normalizeGlob(glob))
-    );
-
-    this.basicFilterFunction = (_) => true;
-    if (this.config.include.length > 0) {
-      this.basicFilterFunction = (path) =>
-        this.config.include.includes(getExt(path));
-    } else if (this.config.exclude.length > 0) {
-      this.basicFilterFunction = (path) =>
-        !this.config.exclude.includes(getExt(path));
-    }
-
     this.options = {
       defaultEOL: Deno.build.os === "windows" ? EOL.CRLF : EOL.LF,
       dryRun: false,
       showFileContent: false,
       ...options,
     };
-
-    log.debug("Engine init:");
-    log.debug("  basePath:", basePath);
-    log.debug("  config:", config);
-    log.debug("  options:", options);
-    log.debug("  includeGlobRegex:", this.includeGlobRegex);
-    log.debug("  excludeGlobRegex:", this.excludeGlobRegex);
-    log.debug("  basicFilterFunction:", this.basicFilterFunction);
   }
 
   /**
@@ -94,15 +69,56 @@ export class Engine {
       throw new Error("initializer can only be run once");
     }
 
+    const include = [
+      ...this.config.include.map((item) => globToRegExp("**/" + item).source),
+      ...this.config.includeGlob.map((glob) =>
+        globToRegExp(normalizeGlob(glob)).source
+      ),
+    ];
+    const exclude = [
+      ...this.config.exclude.map((item) => globToRegExp("**/" + item).source),
+      ...this.config.excludeGlob.map((glob) =>
+        globToRegExp(normalizeGlob(glob)).source
+      ),
+    ];
+
+    /*
+    FIXME:
+    provided a gitignore containing:
+    *
+    !*.foo
+
+    When compiled to excludeRegex, we have:
+    .*|^(?!.*\.foo)
+
+    In that case, `a.foo` is still matched (excluded), while we want to include it.
+    */
+
     if (this.config.versionControl) {
       await within(this.config.versionControl, async (it) => {
         it.setWorkingDir(this.basePath);
         const globs = await it.ignoreGlobs();
         globs.forEach((item) => {
-          this.excludeGlobRegex.push(globToRegExp(item));
+          exclude.push(globToRegExp(item).source);
         });
       });
     }
+
+    if (include.length > 0) {
+      this.includeRegex = new RegExp(include.join("|"));
+    }
+    if (exclude.length > 0) {
+      this.excludeRegex = new RegExp(exclude.join("|"));
+    }
+
+    log.debug("Engine init:");
+    log.debug("  basePath:", this.basePath);
+    log.debug("  config:", this.config);
+    log.debug("  options:", this.options);
+    log.debug("  include:", include);
+    log.debug("  exclude:", exclude);
+    log.debug("  includeRegex:", this.includeRegex?.source);
+    log.debug("  excludeRegex:", this.excludeRegex?.source);
   }
 
   // TODO: use it somewhere
@@ -112,9 +128,16 @@ export class Engine {
   public validateConfig(): string[] {
     const result = [];
 
-    if (this.config.include.length > 0 && this.config.exclude.length > 0) {
+    const notAllowed = /[!\/]/;
+
+    if (this.config.include.some((a) => notAllowed.test(a))) {
       result.push(
-        "Only one of the following attributes can be used: [include, exclude]",
+        "`configRoot.include` should only contain globs without path",
+      );
+    }
+    if (this.config.exclude.some((a) => notAllowed.test(a))) {
+      result.push(
+        "`configRoot.exclude` should only contain globs without path",
       );
     }
 
@@ -127,11 +150,8 @@ export class Engine {
    * @param relativePath file path relative to working directory
    */
   public isFileSelected(relativePath: string): boolean {
-    const select = this.basicFilterFunction(relativePath) &&
-      (this.includeGlobRegex.length === 0 ||
-        this.includeGlobRegex.some((reg) => reg.test(relativePath))) &&
-      (this.excludeGlobRegex.length === 0 ||
-        this.excludeGlobRegex.every((reg) => !reg.test(relativePath)));
+    const select = (this.includeRegex?.test(relativePath) ?? true) &&
+      (!this.excludeRegex?.test(relativePath) ?? true);
 
     return this.config.customFilter(relativePath, select);
   }

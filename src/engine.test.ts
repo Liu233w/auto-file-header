@@ -5,20 +5,24 @@
  * Licensed under MIT. See LICENSE file in the project root for full license information.
  */
 
-import { assertEquals, assertThrows } from "../deps.ts";
+import { assertEquals, assertThrows, log } from "../deps.ts";
 
 import buildConfig from "./config.ts";
 import { Engine } from "./engine.ts";
+import { setupLog } from "./log.config.ts";
 
 const { test } = Deno;
 
-test("Engine.isFileSelected", () => {
+test("Engine.isFileSelected", async () => {
   let engine;
   let config;
 
+  // await setupLog(true);
+
   config = buildConfig();
-  config.include = [".js", ".ts"];
+  config.include = ["*.js", "*.ts"];
   engine = new Engine("", config);
+  await engine.init();
   assertEquals(engine.isFileSelected("a/b.t"), false);
   assertEquals(engine.isFileSelected("a/b"), false);
   assertEquals(engine.isFileSelected("a/b"), false);
@@ -30,6 +34,7 @@ test("Engine.isFileSelected", () => {
   config = buildConfig();
   config.include = ["foo"];
   engine = new Engine("", config);
+  await engine.init();
   assertEquals(engine.isFileSelected("foo/bar"), false);
   assertEquals(engine.isFileSelected("foo/bar.foo"), false);
   assertEquals(engine.isFileSelected("foo"), true);
@@ -38,6 +43,7 @@ test("Engine.isFileSelected", () => {
   config = buildConfig();
   config.exclude = ["foo"];
   engine = new Engine("", config);
+  await engine.init();
   assertEquals(engine.isFileSelected("foo/bar"), true);
   assertEquals(engine.isFileSelected("foo/bar.foo"), true);
   assertEquals(engine.isFileSelected("foo"), false);
@@ -46,6 +52,7 @@ test("Engine.isFileSelected", () => {
   config = buildConfig();
   config.includeGlob = ["*.foo", "*/*.a", "**/*.b"];
   engine = new Engine("", config);
+  await engine.init();
   assertEquals(engine.isFileSelected("foo/bar"), false);
   assertEquals(engine.isFileSelected("foo/bar.foo"), false);
   assertEquals(engine.isFileSelected("foo"), false);
@@ -67,8 +74,9 @@ test("Engine.isFileSelected", () => {
 
   // test win32 path
   config = buildConfig();
-  config.include = [".js", ".ts"];
+  config.include = ["*.js", "*.ts"];
   engine = new Engine("", config);
+  await engine.init();
   assertEquals(engine.isFileSelected("a\\b.t"), false);
   assertEquals(engine.isFileSelected("a\\b"), false);
   assertEquals(engine.isFileSelected("a\\b"), false);
