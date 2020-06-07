@@ -1,5 +1,6 @@
 .PHONY: prepare clean run
 
+run: export DENO_DIR = $(CURDIR)/.deno
 run: prepare
 	cd git && \
 	\
@@ -21,4 +22,4 @@ git/.fileheader.ts:
 	cp git.fileheader.ts git/.fileheader.ts
 
 clean:
-	rm -rf git
+	rm -rf git .deno
