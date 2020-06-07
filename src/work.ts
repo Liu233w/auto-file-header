@@ -68,6 +68,7 @@ export default async function work(
   }
 
   const engine = new Engine(workDir, config, options);
+  await engine.init()
 
   if (options.dryRun) {
     console.log("Selected files:");

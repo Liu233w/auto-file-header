@@ -6,7 +6,7 @@
  */
 
 import { ConfigRoot, TemplateFunction } from "./config.ts";
-import { getExt } from "./utils.ts";
+import { getExt, within } from "./utils.ts";
 
 import {
   walk,
@@ -39,6 +39,8 @@ export class Engine {
   private includeGlobRegex: RegExp[];
   private excludeGlobRegex: RegExp[];
   private basicFilterFunction: (path: string) => boolean;
+
+  private initialized: boolean = false;
 
   /**
    * pre-defined functions
@@ -82,6 +84,25 @@ export class Engine {
     log.debug("  includeGlobRegex:", this.includeGlobRegex);
     log.debug("  excludeGlobRegex:", this.excludeGlobRegex);
     log.debug("  basicFilterFunction:", this.basicFilterFunction);
+  }
+
+  /**
+   * Async initializer, can be only run once.
+   */
+  public async init(): Promise<void> {
+    if (this.initialized) {
+      throw new Error("initializer can only be run once");
+    }
+
+    if (this.config.versionControl) {
+      await within(this.config.versionControl, async (it) => {
+        it.setWorkingDir(this.basePath);
+        const globs = await it.ignoreGlobs();
+        globs.forEach((item) => {
+          this.excludeGlobRegex.push(globToRegExp(item));
+        });
+      });
+    }
   }
 
   // TODO: use it somewhere

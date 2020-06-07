@@ -8,3 +8,5 @@
 export { default as work } from "./src/work.ts";
 
 export { within, getExt } from "./src/utils.ts";
+
+export { vc, VersionControl } from "./src/vc/mod.ts";

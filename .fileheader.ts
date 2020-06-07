@@ -1,6 +1,9 @@
-import { work, within } from "./mod.ts";
+import { work, within, vc } from "./mod.ts";
 
 work((cfg) => {
+
+  cfg.versionControl = vc.git()
+
   cfg.include = [
     ".ts",
   ];

@@ -8,6 +8,7 @@
 import Functions from "./functions.ts";
 import Variables from "./variables.ts";
 import { RecursivePartial } from "./utils.ts";
+import { VersionControl } from "../mod.ts";
 
 export interface ConfigRoot {
   /**
@@ -86,6 +87,12 @@ export interface ConfigRoot {
    * | 8_8_.foo      | false    |
    */
   customFilter(path: string, isIncluded: boolean): boolean;
+
+  /**
+   * The version control system used. It is used to filter files or find
+   * newly modified files. If is it null, no version control system is used.
+   */
+  versionControl?: VersionControl;
 }
 
 export interface Config {

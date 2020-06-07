@@ -40,8 +40,8 @@ export function getExt(path: string) {
   }
 }
 
-export function within<T>(obj: T, func: ((it: T) => any)) {
-  func(obj);
+export function within<T, R>(obj: T, func: ((it: T) => R)): R {
+  return func(obj);
 }
 
 export function splitByLines(str: string): string[] {
