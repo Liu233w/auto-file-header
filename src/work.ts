@@ -68,7 +68,14 @@ export default async function work(
   }
 
   const engine = new Engine(workDir, config, options);
-  await engine.init()
+
+  const configValidation = engine.validateConfig();
+  if (configValidation.length > 0) {
+    configValidation.forEach((v) => console.error(v));
+    Deno.exit(-1);
+  }
+
+  await engine.init();
 
   if (options.dryRun) {
     console.log("Selected files:");
