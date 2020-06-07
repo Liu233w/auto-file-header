@@ -1,18 +1,18 @@
-// Running on Surface Book 2 Core i7 16GB RAM, Windows 10 pro
+// Running on Surface Book 2 Core i7 16GB RAM, Windows 10 pro, msys 2
 
-C:\source\project\auto-file-header\benchmark [master ≡ +2 ~1 -0 !]> make
+C:\source\project\auto-file-header\benchmark [master ≡]> make
 git clone https://github.com/git/git.git git
 Cloning into 'git'...
 remote: Enumerating objects: 288310, done.
 remote: Total 288310 (delta 0), reused 0 (delta 0), pack-reused 288310
-Receiving objects: 100% (288310/288310), 137.87 MiB | 5.54 MiB/s, done.
+Receiving objects: 100% (288310/288310), 137.87 MiB | 5.09 MiB/s, done.
 Resolving deltas: 100% (214564/214564), done.
 Updating files: 100% (3772/3772), done.
 cp git.fileheader.ts git/.fileheader.ts
 cd git && \
 \
 echo cache time && \
-time deno cache --unstable .fileheader.ts && \
+time deno cache --unstable --quiet .fileheader.ts && \
 \
 echo first run time && \
 time deno run --unstable --allow-read --allow-write .fileheader.ts && \
@@ -20,110 +20,8 @@ time deno run --unstable --allow-read --allow-write .fileheader.ts && \
 echo second run time && \
 time deno run --unstable --allow-read --allow-write .fileheader.ts
 cache time
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/mod.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/work.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/utils.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/vc/mod.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/config.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/deps.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/engine.ts
-Download https://deno.land/std@0.55.0/testing/asserts.ts
-Download https://deno.land/std@0.55.0/fs/mod.ts
-Download https://deno.land/std@0.55.0/path/mod.ts
-Download https://deno.land/std@0.55.0/flags/mod.ts
-Download https://deno.land/std@0.55.0/log/mod.ts
-Download https://deno.land/x/lodash@4.17.15-es/get.js
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/vc/git.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/vc/version-control.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/functions.ts
-Download https://raw.githubusercontent.com/Liu233w/auto-file-header/master/src/variables.ts
-Download https://deno.land/x/lodash@4.17.15-es/_baseGet.js
-Download https://deno.land/std@0.55.0/path/_constants.ts
-Download https://deno.land/std@0.55.0/path/win32.ts
-Download https://deno.land/std@0.55.0/path/posix.ts
-Download https://deno.land/std@0.55.0/path/common.ts
-Download https://deno.land/std@0.55.0/path/separator.ts
-Download https://deno.land/std@0.55.0/path/_interface.ts
-Download https://deno.land/std@0.55.0/path/glob.ts
-Download https://deno.land/std@0.55.0/fs/empty_dir.ts
-Download https://deno.land/std@0.55.0/fs/ensure_dir.ts
-Download https://deno.land/std@0.55.0/fs/ensure_file.ts
-Download https://deno.land/std@0.55.0/fs/ensure_link.ts
-Download https://deno.land/std@0.55.0/fs/ensure_symlink.ts
-Download https://deno.land/std@0.55.0/fs/exists.ts
-Download https://deno.land/std@0.55.0/fs/expand_glob.ts
-Download https://deno.land/std@0.55.0/fs/move.ts
-Download https://deno.land/std@0.55.0/fs/copy.ts
-Download https://deno.land/std@0.55.0/fs/read_file_str.ts
-Download https://deno.land/std@0.55.0/fs/write_file_str.ts
-Download https://deno.land/std@0.55.0/fs/read_json.ts
-Download https://deno.land/std@0.55.0/fs/write_json.ts
-Download https://deno.land/std@0.55.0/fs/walk.ts
-Download https://deno.land/std@0.55.0/fs/eol.ts
-Download https://deno.land/std@0.55.0/log/logger.ts
-Download https://deno.land/std@0.55.0/log/handlers.ts
-Download https://deno.land/std@0.55.0/log/levels.ts
-Download https://deno.land/std@0.55.0/fmt/colors.ts
-Download https://deno.land/std@0.55.0/testing/diff.ts
-Download https://deno.land/x/lodash@4.17.15-es/_castPath.js
-Download https://deno.land/x/lodash@4.17.15-es/_toKey.js
-Download https://deno.land/std@0.55.0/fs/_util.ts
-Download https://deno.land/std@0.55.0/path/_globrex.ts
-Download https://deno.land/std@0.55.0/path/_util.ts
-Download https://deno.land/std@0.55.0/io/bufio.ts
-Download https://deno.land/x/lodash@4.17.15-es/isSymbol.js
-Download https://deno.land/x/lodash@4.17.15-es/isArray.js
-Download https://deno.land/x/lodash@4.17.15-es/_isKey.js
-Download https://deno.land/x/lodash@4.17.15-es/_stringToPath.js
-Download https://deno.land/x/lodash@4.17.15-es/toString.js
-Download https://deno.land/std@0.55.0/io/util.ts
-Download https://deno.land/x/lodash@4.17.15-es/_baseGetTag.js
-Download https://deno.land/x/lodash@4.17.15-es/isObjectLike.js
-Download https://deno.land/x/lodash@4.17.15-es/_memoizeCapped.js
-Download https://deno.land/x/lodash@4.17.15-es/_baseToString.js
-Download https://deno.land/std@0.55.0/encoding/utf8.ts
-Download https://deno.land/x/lodash@4.17.15-es/_Symbol.js
-Download https://deno.land/x/lodash@4.17.15-es/_arrayMap.js
-Download https://deno.land/x/lodash@4.17.15-es/_getRawTag.js
-Download https://deno.land/x/lodash@4.17.15-es/_objectToString.js
-Download https://deno.land/x/lodash@4.17.15-es/memoize.js
-Download https://deno.land/x/lodash@4.17.15-es/_MapCache.js
-Download https://deno.land/x/lodash@4.17.15-es/_root.js
-Download https://deno.land/x/lodash@4.17.15-es/_mapCacheClear.js
-Download https://deno.land/x/lodash@4.17.15-es/_mapCacheDelete.js
-Download https://deno.land/x/lodash@4.17.15-es/_mapCacheGet.js
-Download https://deno.land/x/lodash@4.17.15-es/_mapCacheHas.js
-Download https://deno.land/x/lodash@4.17.15-es/_mapCacheSet.js
-Download https://deno.land/x/lodash@4.17.15-es/_freeGlobal.js
-Download https://deno.land/x/lodash@4.17.15-es/_Hash.js
-Download https://deno.land/x/lodash@4.17.15-es/_ListCache.js
-Download https://deno.land/x/lodash@4.17.15-es/_Map.js
-Download https://deno.land/x/lodash@4.17.15-es/_getMapData.js
-Download https://deno.land/x/lodash@4.17.15-es/_listCacheClear.js
-Download https://deno.land/x/lodash@4.17.15-es/_listCacheDelete.js
-Download https://deno.land/x/lodash@4.17.15-es/_listCacheGet.js
-Download https://deno.land/x/lodash@4.17.15-es/_listCacheHas.js
-Download https://deno.land/x/lodash@4.17.15-es/_listCacheSet.js
-Download https://deno.land/x/lodash@4.17.15-es/_hashClear.js
-Download https://deno.land/x/lodash@4.17.15-es/_hashDelete.js
-Download https://deno.land/x/lodash@4.17.15-es/_hashGet.js
-Download https://deno.land/x/lodash@4.17.15-es/_hashHas.js
-Download https://deno.land/x/lodash@4.17.15-es/_hashSet.js
-Download https://deno.land/x/lodash@4.17.15-es/_getNative.js
-Download https://deno.land/x/lodash@4.17.15-es/_isKeyable.js
-Download https://deno.land/x/lodash@4.17.15-es/_assocIndexOf.js
-Download https://deno.land/x/lodash@4.17.15-es/_nativeCreate.js
-Download https://deno.land/x/lodash@4.17.15-es/_baseIsNative.js
-Download https://deno.land/x/lodash@4.17.15-es/_getValue.js
-Download https://deno.land/x/lodash@4.17.15-es/eq.js
-Download https://deno.land/x/lodash@4.17.15-es/isFunction.js
-Download https://deno.land/x/lodash@4.17.15-es/_isMasked.js
-Download https://deno.land/x/lodash@4.17.15-es/isObject.js
-Download https://deno.land/x/lodash@4.17.15-es/_toSource.js
-Download https://deno.land/x/lodash@4.17.15-es/_coreJsData.js
-Compile file:///C:/source/project/auto-file-header/benchmark/git/.fileheader.ts
 
-real    0m15.629s
+real    0m12.976s
 user    0m0.015s
 sys     0m0.000s
 first run time
@@ -137,7 +35,7 @@ first run time
 #     #  ####    #    ####     #       # ###### ######    #     # ###### #    # #####  ###### #    #
 
 
-real    0m34.451s
+real    0m1.056s
 user    0m0.000s
 sys     0m0.015s
 second run time
@@ -151,6 +49,6 @@ second run time
 #     #  ####    #    ####     #       # ###### ######    #     # ###### #    # #####  ###### #    #
 
 
-real    0m4.318s
+real    0m0.798s
 user    0m0.015s
-sys     0m0.015s
+sys     0m0.000s

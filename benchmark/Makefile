@@ -5,7 +5,7 @@ run: prepare
 	cd git && \
 	\
 	echo cache time && \
-	time deno cache --unstable .fileheader.ts && \
+	time deno cache --unstable --quiet .fileheader.ts && \
 	\
 	echo first run time && \
 	time deno run --unstable --allow-read --allow-write .fileheader.ts && \
