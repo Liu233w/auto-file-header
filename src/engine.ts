@@ -266,8 +266,8 @@ export class Engine {
       this.getConfig("format.commentEnd", type) as string,
       // trailing blank lines
       ...new Array(this.getConfig("format.trailingBlankLine", type) as number)
-        .fill(""),
-    ];
+        .fill("") as string[],
+    ].map((s) => s.trimEnd());
   }
 
   /**
