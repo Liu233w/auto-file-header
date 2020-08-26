@@ -7,18 +7,35 @@
 
 import { VersionControl } from "./version-control.ts";
 
-import { walk, globToRegExp, relative, readFileStr } from "../../deps.ts";
-import { splitByLines } from "../utils.ts";
-
 export class Git implements VersionControl {
   private workingDir: string = "";
+
+  private notIgnoredFiles?: Set<string> = undefined;
 
   setWorkingDir(path: string): void {
     this.workingDir = path;
   }
 
-  isIgnored(path: string): Promise<boolean> {
-    throw new Error("Method not implemented.");
+  async isIgnored(path: string): Promise<boolean> {
+    if (!this.notIgnoredFiles) {
+      // TODO: looking for other way to implement
+      const process = Deno.run({
+        cmd: ["git", "ls-files"],
+        cwd: this.workingDir,
+        stdout: "piped",
+      });
+      await process.status()
+      process.close()
+
+      const output = await process.output();
+      // TODO: detect encoding
+      const lines = new TextDecoder("utf-8")
+        .decode(output)
+        .split(/\r?\n/);
+      this.notIgnoredFiles = new Set(lines);
+    }
+
+    return !this.notIgnoredFiles.has(path);
   }
 
   async *modifiedFiles(): AsyncIterableIterator<string> {

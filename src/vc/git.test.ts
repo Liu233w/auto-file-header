@@ -9,3 +9,16 @@ import { assertEquals } from "../../deps.ts";
 import { Git } from "./git.ts";
 
 const { test } = Deno;
+
+test({
+  name: "isIgnored",
+  async fn() {
+    const git = new Git();
+    git.setWorkingDir(Deno.cwd());
+
+    assertEquals(await git.isIgnored("benchmark/benchmark.txt"), false);
+    assertEquals(await git.isIgnored(".gitignore"), false);
+
+    assertEquals(await git.isIgnored("benchmark/git/.gitignore"), true);
+  },
+});
