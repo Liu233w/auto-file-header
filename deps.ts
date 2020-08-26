@@ -6,8 +6,6 @@ export {
 export {
   walk,
   detect as detectEOL,
-  readFileStr,
-  writeFileStr,
   EOL,
 } from "https://deno.land/std@v0.66.0/fs/mod.ts";
 

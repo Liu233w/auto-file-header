@@ -14,9 +14,7 @@ import {
   globToRegExp,
   lodashGet,
   detectEOL,
-  readFileStr,
   joinPath,
-  writeFileStr,
   normalizeGlob,
   EOL,
 } from "../deps.ts";
@@ -275,7 +273,7 @@ export class Engine {
     for await (const path of this.globFiles()) {
       const absolutePath = joinPath(this.basePath, path);
       // TODO: handle encoding
-      const content = await readFileStr(absolutePath);
+      const content = await Deno.readTextFile(absolutePath);
       const type = getExt(path);
       const eol = detectEOL(content) ?? this.options.defaultEOL;
 
@@ -319,7 +317,7 @@ export class Engine {
       }
       return Promise.resolve();
     } else {
-      return writeFileStr(path, content);
+      return Deno.writeTextFile(path, content);
     }
   }
 }
