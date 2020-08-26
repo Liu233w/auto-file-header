@@ -97,10 +97,6 @@ export class Engine {
     if (this.config.versionControl) {
       await within(this.config.versionControl, async (it) => {
         it.setWorkingDir(this.basePath);
-        const globs = await it.ignoreGlobs();
-        globs.forEach((item) => {
-          exclude.push(globToRegExp(item).source);
-        });
       });
     }
 
@@ -151,7 +147,8 @@ export class Engine {
    */
   public isFileSelected(relativePath: string): boolean {
     const select = (this.includeRegex?.test(relativePath) ?? true) &&
-      (!this.excludeRegex?.test(relativePath) ?? true);
+      (!this.excludeRegex?.test(relativePath) ?? true) &&
+      (!this.config.versionControl?.isIgnored(relativePath) ?? true);
 
     return this.config.customFilter(relativePath, select);
   }

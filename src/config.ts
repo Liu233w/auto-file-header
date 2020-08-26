@@ -64,7 +64,7 @@ export interface ConfigRoot {
    * @example
    * If we have a config like this:
    * {
-   *  include: ['.txt'],
+   *  include: ['*.txt'],
    *  customFilter: (p, i) => i && basename(p).split('_').length > 3
    *    && basename(p).split('_')[0] + basename(p).split('_')[1] > 10
    * }

@@ -16,9 +16,10 @@ export interface VersionControl {
   setWorkingDir(path: string): void;
 
   /**
-   * Get a list of globs that represent ignored files by the version control
+   * Check if the file is ignore by vc
+   * @param path the path to the file relative to working dir
    */
-  ignoreGlobs(): Promise<string[]>;
+  isIgnored(path: string): Promise<boolean>;
 
   /**
    * Get modified files (relative path)
